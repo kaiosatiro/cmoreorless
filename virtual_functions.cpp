@@ -11,8 +11,8 @@ class Person
 public:
     string name;
     int age;
-    void getdata(){};
-    void putdata(){};
+    virtual void getdata() {};
+    virtual void putdata() {};
 };
 
 class Professor: public Person
@@ -20,19 +20,21 @@ class Professor: public Person
 public:
     int cur_id;
     int publications;
-    Professor(int id){
-        this->cur_id = id;
+    Professor(){
+        this->cur_id = ++count;
     }
     void getdata(){
         cin >> this->name >> this->age >> this->publications;
     }
     void putdata(){
-        cout << "\n";
         cout << this->name << " ";
         cout << this->age << " ";
         cout << this->publications << " ";
         cout << this->cur_id;
+        cout << "\n";
     }
+private:
+    static int count;
 
 };
 
@@ -41,8 +43,8 @@ class Student: public Person
 public:
     int cur_id;
     int marks[6];
-    Student(int id){
-        this->cur_id = id;
+    Student(){
+        this->cur_id = ++count;
     }
     void getdata(){
         cin >> this->name >> this->age;
@@ -57,15 +59,17 @@ public:
     }
     void putdata(){
         int sum{0};
-        for (int i{0}; i < sizeof(this->marks); i++)
+        for (int i{0}; i < 6; i++)
             sum += this->marks[i];
 
-        cout << "\n";
         cout << this->name << " ";
         cout << this->age << " ";
         cout << sum << " ";
-        cout << this->cur_id;  
+        cout << this->cur_id;
+        cout << "\n";
     }
+private:
+    static int count;
 };
 // 4
 // 1
@@ -76,6 +80,9 @@ public:
 // Pinkman 22 10 12 0 18 45 50
 // 1
 // White 58 87
+int Professor::count = 0;
+int Student::count = 0;
+
 
 int main() {
     int n_objects{0};
@@ -84,24 +91,24 @@ int main() {
 
     cin >> n_objects;
 
+
     Person* persons[n_objects];
 
     for (int i{0}; i < n_objects; i++){
         cin >> type;
         if (type == 1){
-            persons[i] = &Professor(id);
-            (*persons[i]).getdata();
-            
+            persons[i] = new Professor;
+            persons[i]->getdata();
         }
         else if (type == 2){
-            persons[i] = &Student(id);
-            (*persons[i]).getdata();
+            persons[i] = new Student;
+            persons[i]->getdata();
         }
         id++;
     }
 
-    for (int i{0}; i < sizeof(persons); i++){
-        (*persons[i]).putdata();
+    for (int i = 0; i < n_objects; i++){
+        persons[i]->putdata();
     }
 
     return 0;
