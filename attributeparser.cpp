@@ -62,8 +62,9 @@ void parser(
             int tag_sep = tag_tree.find_last_of('.');
             if (tag_sep != std::string::npos)
                 tag_tree.erase(tag_sep);
-            // else
-            //     tag_tree.clear();
+            else
+                tag_tree.clear();
+            tag_tree_lenght--;
             continue;
         }
         
@@ -90,8 +91,8 @@ void parser(
 
 int main() {
     int hrml_len{0}, n_queries{0};
-    char c;
     std::vector<std::string> hrml_lines;
+
     std::vector<std::string> query_lines;
     std::cin >> hrml_len >> n_queries;
 
